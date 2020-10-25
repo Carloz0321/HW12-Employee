@@ -88,8 +88,8 @@ function mainMenu() {
 }
 
 
-function ViewEmployees() {
-    connection.query(" SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, '', manager.last_name) AS manager FROM employees LEFT JOIN roles ON employees.role_id = role_id LEFT JOIN departments ON role.department_id = department.id LEFT JOIN employees manager ON manager.id = employees.manager_id;", (err, result) =>{
+function viewEmployees() {
+    connection.query(" SELECT employees.id, employees.first_name, employees.last_name, roles.title, departments.name AS department, roles.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employees LEFT JOIN roles on employees.role_id = role_id LEFT JOIN departments ON roles.department_id = departments.id LEFT JOIN employees manager ON manager.id = employees.manager_id;", (err, result) =>{
         if (err) throw err;
 
         console.table(result);
@@ -119,26 +119,26 @@ function viewRoles() {
     });
 };
 
-function addDepartment() {
+async function addDepartment() {
 
-    return inquirer.prompt([
+    const answer = await inquirer.prompt([
         {
             type: "input",
             message: "What department name would you like to add",
             name: "department"
         }
-    ]).then(answer => {
-        connection.query("INSERT INTO departments ", {name: answer.departments }, (err, result) => {
-            if(err) throw err;
-            console.log("department is added!");
+    ]);
+    connection.query("INSERT INTO departments", { name: answer.department }, (err, result) => {
+        if (err)
+            throw err;
+        console.log("department is added!");
 
-            mainMenu();
-        })
+        mainMenu();
     });
 };
 
 
-function addRole() {
+function AddRole() {
 
     return inquirer.prompt([
         {
@@ -153,7 +153,7 @@ function addRole() {
         },
         {
             type: "input",
-            message: "PLease enter your department ID",
+            message: "Please enter your department ID",
             name: "department_id"
         }
 
