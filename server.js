@@ -119,21 +119,21 @@ function viewRoles() {
     });
 };
 
-async function addDepartment() {
+function addDepartment() {
 
-    const answer = await inquirer.prompt([
+    return inquirer.prompt([
         {
             type: "input",
             message: "What department name would you like to add",
             name: "department"
         }
-    ]);
-    connection.query("INSERT INTO departments", { name: answer.department }, (err, result) => {
-        if (err)
-            throw err;
-        console.log("department is added!");
+    ]).then(answer => {
+        connection.query("INSERT INTO departments set?", {name: answer.department }, (err, result) => {
+            if (err) throw err;
+            console.log("department is added");
 
-        mainMenu();
+            mainMenu();
+        })
     });
 };
 
@@ -158,7 +158,7 @@ function AddRole() {
         }
 
     ]).then(answer => {
-        connection.query("INSERT INTO roles SET", {title: answer.title, salary: answer.salary, department_id: answer.department_id}, (err, result) =>{
+        connection.query("INSERT INTO roles set?", {title: answer.title, salary: answer.salary, department_id: answer.department_id}, (err, result) =>{
             if (err) throw err;
 
             console.log("role is added");
@@ -192,7 +192,7 @@ function AddEmployee() {
             name: "managerId"
         }
     ]).then(answer => {
-        connection.query("INSERT INTO employees SET", {first_name: answer.firstName, last_name: answer.lastName, role_id: answer.employeeId, manager_id: answer.managerId}, (err, result) => {
+        connection.query("INSERT INTO employees set?", {first_name: answer.firstName, last_name: answer.lastName, role_id: answer.employeeId, manager_id: answer.managerId}, (err, result) => {
             if (err) throw err;
 
             console.log("Your new employee is added!");
