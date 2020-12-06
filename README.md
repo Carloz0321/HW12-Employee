@@ -10,4 +10,4 @@ roles, and departments.
 
 ![home](/img/DEMO.mpeg)
 
-![home](/img/DEMOIMG)
+![home](/img/DEMOIMG.png)
